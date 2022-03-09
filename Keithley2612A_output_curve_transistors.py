@@ -82,7 +82,8 @@ for vgi in vg_range:
     data.append(voltage_g)
     data.append(current_g)
 
-
+    plt.plot(voltage_d[1:], current_d[1:])
+    plt.show()
 kl.write('smua.source.output = smua.OUTPUT_OFF')
 kl.write('smub.source.output = smub.OUTPUT_OFF')
 kl.write('smua.buffer.clear()')
@@ -90,11 +91,5 @@ kl.write('smua.reset()')
 
 data_export = np.array(data)
 #print(data_export)
-#plt.plot(timeLapse, current)
-#plt.plot(timeLapse, voltage)
-#plt.plot(voltage, current)
-#plt.show
-#df = pd.DataFrame(data)
-#df.to_csv('output.csv')
 np.savetxt("output.csv", data_export.T,  delimiter = ", ", fmt = '% s')
 print('end')
