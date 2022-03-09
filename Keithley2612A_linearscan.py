@@ -14,25 +14,25 @@ import numpy as np
 
 rm = pyvisa.ResourceManager()
 
-print(rm.list_resources())
-
+print(rm.list_resources()) #see list of resources, find the GPIB to fit with the 
 
 kl = rm.open_resource('GPIB0::6::INSTR')
 print(kl.query('*IDN?'))
 
-kl.write('smua.reset()')
-kl.write('smub.reset()')
+#reset the device
+kl.write('smua.reset()') 
+kl.write('smub.reset()') 
 kl.write('smua.source.output = smua.OUTPUT_ON')
 start_time = time.time()
 
 v_i = -0.5 
 v_f = 0.5
-v_points = 100
+v_points = 99
 
-#v_range = np.linspace(v_i, v_f, v_points)
-v_range = np.append(np.linspace(v_i, v_f, v_points), np.linspace(v_f, v_i, v_points))
+#v_range = np.linspace(v_i, v_f, v_points) #one direction
+v_range = np.append(np.linspace(v_i, v_f, v_points), np.linspace(v_f, v_i, v_points)) #sweep 
 
-current = []
+current = [] 
 voltage = []
 timeLapse = []
 
@@ -48,6 +48,7 @@ for i in v_range:
     current.append(currenti)
     voltage.append(voltagei)
 
+### turn off the sources and reset the device
 kl.write('smua.source.output = smua.OUTPUT_OFF')
 kl.write('smub.source.output = smub.OUTPUT_OFF')
 kl.write('smua.reset()')
@@ -55,8 +56,7 @@ kl.write('smub.reset()')
 
 #print(current)
 #print(voltage)
-#export data
-#set data
+### export data
 data = []
 data.append(elapse_time)
 data.append(voltage)
@@ -64,7 +64,7 @@ data.append(current)
 data_export = np.array(data)
 np.savetxt("linear_scan.csv", data_export.T,  delimiter = ", ", fmt = '% s')
 
-#plot data
+### plot data
 #plt.plot(timeLapse, current)
 #plt.plot(timeLapse, voltage)
 plt.plot(voltage, current)
