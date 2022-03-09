@@ -28,7 +28,7 @@ start_time = time.time()
 v_i = -0.5 
 v_f = 0.5
 v_points = 99
-
+hold = 0.1
 #v_range = np.linspace(v_i, v_f, v_points) #one direction
 v_range = np.append(np.linspace(v_i, v_f, v_points), np.linspace(v_f, v_i, v_points)) #sweep 
 
@@ -51,6 +51,7 @@ for i in v_range:
     voltagei = float(kl.query("printbuffer(1, smua.nvbuffer2.n, smua.nvbuffer2.readings)"))
     current.append(currenti)
     voltage.append(voltagei)
+    sleep(hold)
 
 ### turn off the sources and reset the device
 kl.write('smua.source.output = smua.OUTPUT_OFF')
