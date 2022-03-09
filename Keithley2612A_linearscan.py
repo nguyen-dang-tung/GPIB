@@ -36,6 +36,10 @@ current = []
 voltage = []
 timeLapse = []
 
+current.append('I')
+voltage.append('V')
+timeLapse.append('time')
+
 for i in v_range:
     #print(i)
     kl.write('smua.source.levelv =' + str(i))
@@ -58,16 +62,17 @@ kl.write('smub.reset()')
 #print(voltage)
 ### export data
 data = []
-data.append(elapse_time)
+data.append(timeLapse)
 data.append(voltage)
 data.append(current)
 data_export = np.array(data)
 np.savetxt("linear_scan.csv", data_export.T,  delimiter = ", ", fmt = '% s')
 
 ### plot data
-#plt.plot(timeLapse, current)
-#plt.plot(timeLapse, voltage)
-plt.plot(voltage, current)
+#plt.plot(timeLapse[1:], np.absolute(current[1:]))
+#plt.plot(timeLapse[1:], voltage[1:])
+#plt.plot(voltage[1:], np.absolute(current[1:]))
+#plt.yscale('log')
 plt.show()
 
 print('end')
