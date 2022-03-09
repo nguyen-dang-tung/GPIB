@@ -28,7 +28,7 @@ start_time = time.time()
 v_i = -0.5 
 v_f = 0.5
 v_points = 99
-hold = 0.1
+hold = 0.1 #hold time after each point
 #v_range = np.linspace(v_i, v_f, v_points) #one direction
 v_range = np.append(np.linspace(v_i, v_f, v_points), np.linspace(v_f, v_i, v_points)) #sweep 
 
