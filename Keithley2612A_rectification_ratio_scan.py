@@ -46,8 +46,8 @@ for i in vd_range:
         el_time = time.time() - start_time #elapsed time
         timeLapse.append(el_time)
         
-        currenti = kl.query_ascii_values("printbuffer(1, smua.nvbuffer1.n, smua.nvbuffer1.readings)")
-        voltagei = kl.query_ascii_values("printbuffer(1, smua.nvbuffer2.n, smua.nvbuffer2.readings)")
+        currenti = float(kl.query("printbuffer(1, smua.nvbuffer1.n, smua.nvbuffer1.readings)"))
+        voltagei = float(kl.query("printbuffer(1, smua.nvbuffer2.n, smua.nvbuffer2.readings)"))
         current.append(currenti)
         voltage.append(voltagei)
 
