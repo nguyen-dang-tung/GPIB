@@ -31,6 +31,10 @@ current = []
 voltage = []
 timeLapse = []
 
+current.append('I')
+voltage.append('V')
+timeLapse.append('time')
+
 start_time = time.time()
 for i in vd_range:
     for j in (1, -1):
@@ -54,18 +58,19 @@ kl.write('smua.buffer.clear()')
 kl.write('smua.reset()')
 kl.write('smub.reset()')
 
-#visualize data
-#plt.plot(timeLapse, current)
-#plt.plot(timeLapse, voltage)
-#plt.plot(voltage, current)
-#plt.show()
+### plot data
+#plt.plot(timeLapse[1:], np.absolute(current[1:]))
+#plt.plot(timeLapse[1:], voltage[1:])
+plt.plot(voltage[1:], np.absolute(current[1:]))
+plt.yscale('log')
+plt.show()
 
 #exporting data
 data = []
 data.append(timeLapse)
 data.append(voltage)
 data.append(current)
-data.export = np.array(data)
+data_export = np.array(data)
 np.savetxt("diode-rectif.csv", data_export.T,  delimiter = ", ", fmt = '% s')
 
 print('end')
