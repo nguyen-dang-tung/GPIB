@@ -30,11 +30,11 @@ kl.write('smub.source.output = smub.OUTPUT_ON')
 hold = 0.1 #hold time for each measurement OECT might require hold time = 100 ms
 vd_i = -0.5 # initial Vd 
 vd_f = 0.5 # final Vd
-vd_points = 10 # number of point
+vd_points = 49 # number of point
 
-vg_i = 0.1
-vg_f = 0.2
-vg_points = 2
+vg_i = -0.5
+vg_f = 0.5
+vg_points = 11
 vg_range = np.linspace(vg_i, vg_f, vg_points)
 
 #creat a sweep list
@@ -46,7 +46,7 @@ data = []
 enum = 1
 
 for vgi in vg_range:
-
+    print('scan at Vg = ' + str(vgi))
     current_d = []
     voltage_d = []
     current_g = []
@@ -65,7 +65,6 @@ for vgi in vg_range:
         kl.write('smua.measure.i(smua.nvbuffer1)')
         kl.write('smua.measure.v(smua.nvbuffer2)')
         kl.write('smub.measure.i(smub.nvbuffer1)')
-        print('ok')
         kl.write('smub.measure.v(smub.nvbuffer2)')
         #here we save data        
         current_di = float(kl.query("printbuffer(1, smua.nvbuffer1.n, smua.nvbuffer1.readings)"))
@@ -76,8 +75,7 @@ for vgi in vg_range:
         voltage_gi = float(kl.query("printbuffer(1, smub.nvbuffer2.n, smub.nvbuffer2.readings)"))
         current_g.append(current_gi)
         voltage_g.append(voltage_gi)
-        #print(time.time() - temp)
-        #temp = time.time()
+
     
     data.append(voltage_d)
     data.append(current_d)
@@ -91,7 +89,7 @@ kl.write('smua.buffer.clear()')
 kl.write('smua.reset()')
 
 data_export = np.array(data)
-print(data_export)
+#print(data_export)
 #plt.plot(timeLapse, current)
 #plt.plot(timeLapse, voltage)
 #plt.plot(voltage, current)
