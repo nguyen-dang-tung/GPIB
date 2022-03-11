@@ -11,6 +11,15 @@ import time as time
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import os as os
+
+#create path to export. Usually the source code is put at src
+path_parent = os.path.dirname(os.getcwd())
+path_export = path_parent + '\\export'
+if os.path.isdir(path_export) == False:
+    os.mkdir(path_export)
+print(path_export)
+os.chdir(path_export)
 
 #check the ressource and assign the Keithley
 rm = pyvisa.ResourceManager()
