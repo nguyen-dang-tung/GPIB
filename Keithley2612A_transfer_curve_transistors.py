@@ -35,7 +35,7 @@ print(kl.query('*IDN?'))
 kl.write('smua.reset()')
 kl.write('smua.source.output = smua.OUTPUT_ON')
 kl.write('smub.source.output = smub.OUTPUT_ON')
-#start_time = time.time()
+start_time = time.time()
 #temp = 0
 
 #define parameter of scan
@@ -110,4 +110,5 @@ kl.write('smub.reset()')
 data_export = np.array(data)
 np.savetxt("transfer.csv", data_export.T,  delimiter = ", ", fmt = '% s')
 
-print('end')
+print('finished after ' + str(int(time.time()-start_time) + ' s;')
+print('end.')
