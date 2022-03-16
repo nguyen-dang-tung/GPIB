@@ -20,8 +20,6 @@ if os.path.isdir(path_export) == False:
     os.mkdir(path_export)
 print(path_export)
 os.chdir(path_export)
-
-
 	
 #check the ressource and assign the Keithley
 rm = pyvisa.ResourceManager()
