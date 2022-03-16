@@ -85,4 +85,5 @@ plt.plot(timeLapse, current)
 #plt.plot(voltage, current)
 plt.show()
 
-print('end')
+print('finished after ' + str(int(time.time()-start_time) + ' s;')
+print('end.')
