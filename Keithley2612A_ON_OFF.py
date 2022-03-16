@@ -64,7 +64,7 @@ voltage_g.append('Vg (V)' )
 kl.write('smua.source.levelv =' + str(vdi))    
 start_time = time.time()
 for i in range(cycles):
-    kl.write('smub.source.levelv =' + str(vg_ON))
+	kl.write('smub.source.levelv =' + str(vg_ON))
 	for j in range(points_ON):
 		#here we measure
 		kl.write('smua.measure.i(smua.nvbuffer1)')
@@ -78,7 +78,7 @@ for i in range(cycles):
 		current_g.append(float(kl.query("printbuffer(1, smub.nvbuffer1.n, smub.nvbuffer1.readings)")))
 		voltage_g.append(float(kl.query("printbuffer(1, smub.nvbuffer2.n, smub.nvbuffer2.readings)")))
 	kl.write('smub.source.levelv =' + str(vg_ON))
-		for k in range(point_OFF):
+	for k in range(point_OFF):
 		#here we measure
 		kl.write('smua.measure.i(smua.nvbuffer1)')
 		kl.write('smua.measure.v(smua.nvbuffer2)')
