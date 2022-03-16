@@ -85,4 +85,5 @@ np.savetxt("linear_scan.csv", data_export.T,  delimiter = ", ", fmt = '% s')
 #plt.yscale('log')
 plt.show()
 
-print('end')
+print('finished after ' + str(int(time.time()-start_time) + ' s;')
+print('end.')
