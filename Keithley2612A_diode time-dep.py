@@ -3,6 +3,9 @@
 Created on Fri Mar  8 16:58:51 2022
 @author: Tung
 """
+#add name of column
+#save plot into plot folder
+#
 
 import pyvisa
 from time import sleep
@@ -35,7 +38,7 @@ voltage = []
 elapse_time = []
 
 start_time = time.time()
-for i in range(points_before)
+for i in range(points_before):
   #here we measure
   kl.write('smua.measure.i(smua.nvbuffer1)')
   kl.write('smua.measure.v(smua.nvbuffer2)')
@@ -52,7 +55,7 @@ for i in range(points_before)
 #here we apply a voltage
 kl.write('smua.source.levelv =' + str(v_ON))  
 
-for i in range(points_after)
+for i in range(points_after):
   #here we measure
   kl.write('smua.measure.i(smua.nvbuffer1)')
   kl.write('smua.measure.v(smua.nvbuffer2)')
@@ -80,10 +83,10 @@ data_export = np.array(data)
 np.savetxt("output.csv", data_export.T,  delimiter = ", ", fmt = '% s')
 
 #plot data
-plt.plot(timeLapse, current)
+plt.plot(elapse_time, current)
 #plt.plot(timeLapse, voltage)
 #plt.plot(voltage, current)
 plt.show()
 
-print('finished after ' + str(int(time.time()-start_time) + ' s;')
+print('finished after ' + str(int(time.time()-start_time)) + ' s;')
 print('end.')
