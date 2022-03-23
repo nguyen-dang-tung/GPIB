@@ -12,15 +12,40 @@ import time as time
 import matplotlib.pyplot as plt
 import numpy as np
 import os as os
+import datetime
 
-#create path to export. Usually the source code is put at src
-path_parent = os.path.dirname(os.getcwd())
-path_export = path_parent + '\\export'
-if os.path.isdir(path_export) == False:
-    os.mkdir(path_export)
+
+today = datetime.datetime.now()
+date_today = today.strftime('%d%m%y')#grabbing today's date
+time_now = today.strftime('%H_%M')#grabbing current time, hours and minutes
+path_parent = os.getcwd()
+print(path_parent)
+path_export = path_parent + "\\" + date_today
 print(path_export)
-os.chdir(path_export)
+try:
+    os.mkdir(path_export)
+    print('folder created')
+except:
+    print('folder was created today, moving on to next step...')
 
+path_linearscan = path_export + "\\linear_scan_" + time_now
+
+if os.path.isdir(path_linearscan) == False:
+    os.mkdir(path_linearscan)
+    print('linearscan folder created successfully')
+path_data = path_linearscan + '//data'  #creating data directory at current time
+if os.path.isdir(path_data) == False:
+    os.mkdir(path_data)
+    print('data folder created in current directory')
+    
+path_plot = path_linearscan + '//plot'#creating data directory at current time
+if os.path.isdir(path_plot) == False:
+    os.mkdir(path_plot)
+    print('plot folder created in current directory')
+
+os.chdir(path_data)#Moving to the data folder
+
+#########################Main Code##########################################
 rm = pyvisa.ResourceManager()
 
 print(rm.list_resources()) #see list of resources, find the GPIB to fit with the 
@@ -83,6 +108,11 @@ np.savetxt("linear_scan.csv", data_export.T,  delimiter = ", ", fmt = '% s')
 #plt.plot(timeLapse[1:], voltage[1:])
 #plt.plot(voltage[1:], np.absolute(current[1:]))
 #plt.yscale('log')
+
+#moving to plot folder
+#export plot here(image processing here)
+os.chdir(path_plot)
+
 plt.show()
 
 print('finished after ' + str(int(time.time()-start_time)) + ' s;')
