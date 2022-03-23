@@ -15,33 +15,35 @@ import os as os
 import datetime
 
 
+######################
+#Create folders to export files (raw data and plots)
 today = datetime.datetime.now()
 date_today = today.strftime('%d%m%y')#grabbing today's date
 time_now = today.strftime('%H_%M')#grabbing current time, hours and minutes
 path_parent = os.getcwd()
-print(path_parent)
+#print(path_parent)
 path_export = path_parent + "\\" + date_today
-print(path_export)
+#print(path_export)
 try:
     os.mkdir(path_export)
-    print('folder created')
+    #print('folder created')
 except:
-    print('folder was created today, moving on to next step...')
+    #print('folder was created today, moving on to next step...')
 
 path_linearscan = path_export + "\\linear_scan_" + time_now
 
 if os.path.isdir(path_linearscan) == False:
     os.mkdir(path_linearscan)
-    print('linearscan folder created successfully')
+    #print('linearscan folder created successfully')
 path_data = path_linearscan + '//data'  #creating data directory at current time
 if os.path.isdir(path_data) == False:
     os.mkdir(path_data)
-    print('data folder created in current directory')
+    #print('data folder created in current directory')
     
 path_plot = path_linearscan + '//plot'#creating data directory at current time
 if os.path.isdir(path_plot) == False:
     os.mkdir(path_plot)
-    print('plot folder created in current directory')
+    #print('plot folder created in current directory')
 
 os.chdir(path_data)#Moving to the data folder
 
@@ -69,10 +71,12 @@ v_range = np.append(np.linspace(v_i, v_f, v_points), np.linspace(v_f, v_i, v_poi
 current = [] 
 voltage = []
 timeLapse = []
+absCurrent = []
 
 current.append('I')
 voltage.append('V')
 timeLapse.append('time')
+absCurrent.append('abs(I)')
 
 for i in v_range:
     #print(i)
@@ -100,6 +104,9 @@ data = []
 data.append(timeLapse)
 data.append(voltage)
 data.append(current)
+absCurrent.append(np.absolute(current))
+data.append(absCurrent)
+
 data_export = np.array(data)
 np.savetxt("linear_scan.csv", data_export.T,  delimiter = ", ", fmt = '% s')
 
