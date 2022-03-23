@@ -23,18 +23,26 @@ time_now = today.strftime('%H_%M')#grabbing current time, hours and minutes
 path_parent = os.getcwd()
 #print(path_parent)
 path_export = path_parent + "\\" + date_today
+path_data = path_export + "\\data"
+path_plot = path_export + "\\plot"
+file_name = "linear_scan_" + date_today + time_now 
 #print(path_export)
 try:
     os.mkdir(path_export)
+    os.mkdir(path_data)
+    os.mkdir(path_plot)
     #print('folder created')
 except:
     #print('folder was created today, moving on to next step...')
 
+
+'''
 path_linearscan = path_export + "\\linear_scan_" + time_now
 
 if os.path.isdir(path_linearscan) == False:
     os.mkdir(path_linearscan)
     #print('linearscan folder created successfully')
+
 path_data = path_linearscan + '//data'  #creating data directory at current time
 if os.path.isdir(path_data) == False:
     os.mkdir(path_data)
@@ -46,7 +54,7 @@ if os.path.isdir(path_plot) == False:
     #print('plot folder created in current directory')
 
 os.chdir(path_data)#Moving to the data folder
-
+'''
 #########################Main Code##########################################
 rm = pyvisa.ResourceManager()
 
@@ -108,18 +116,23 @@ absCurrent.append(np.absolute(current))
 data.append(absCurrent)
 
 data_export = np.array(data)
-np.savetxt("linear_scan.csv", data_export.T,  delimiter = ", ", fmt = '% s')
+
+os.chdir(path_data)
+np.savetxt(file_name + ".csv", data_export.T,  delimiter = ", ", fmt = '% s')
 
 ### plot data
 #plt.plot(timeLapse[1:], np.absolute(current[1:]))
 #plt.plot(timeLapse[1:], voltage[1:])
-#plt.plot(voltage[1:], np.absolute(current[1:]))
-#plt.yscale('log')
+plt.plot(voltage[1:], absCurrent[1:])
+plt.yscale('log')
+#plt.xscale('log')
+plt.xlabel(str(voltage[0])
+plt.xlable(str(absCurrent[0])
 
 #moving to plot folder
 #export plot here(image processing here)
 os.chdir(path_plot)
-
+plt.savefig(file_name + ".png")
 plt.show()
 
 print('finished after ' + str(int(time.time()-start_time)) + ' s;')
