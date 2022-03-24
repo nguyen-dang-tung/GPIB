@@ -13,6 +13,30 @@ import time as time
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import datetime 
+import os 
+
+######################
+#Create folders to export files (raw data and plots)
+today = datetime.datetime.now()
+date_today = today.strftime('%y-%m-%d')#grabbing today's date
+time_now = today.strftime('_%H_%M')#grabbing current time, hours and minutes
+path_parent = os.path.dirname(os.getcwd()) + "\\export"
+if os.path.isdir(path_parent) == False:
+    os.mkdir(path_parent)
+#print(path_parent)
+path_export = path_parent + "\\" + date_today
+path_data = path_export + "\\data"
+path_plot = path_export + "\\plot"
+file_name = "diode_time_dep_" + date_today + time_now 
+#print(path_export)
+try:
+    os.mkdir(path_export)
+    os.mkdir(path_data)
+    os.mkdir(path_plot)
+    print('folders created')
+except:
+    print('')
 
 #check the ressource and assign the Keithley
 rm = pyvisa.ResourceManager()
@@ -31,7 +55,7 @@ kl.write('smua.source.output = smua.OUTPUT_ON')
 hold = 0 #hold time for each measurement OECT might require hold time = 100 ms
 v_ON = 0.5 #apply a voltage 
 points_before = 100
-points_after = 4000
+points_after = 300
 
 current = []
 voltage = []
@@ -79,8 +103,9 @@ kl.write('smua.buffer.clear()')
 kl.write('smua.reset()')  
 
 #export data
+os.chdir(path_data)
 data_export = np.array(data)
-np.savetxt("output.csv", data_export.T,  delimiter = ", ", fmt = '% s')
+np.savetxt(file_name + '.csv', data_export.T,  delimiter = ", ", fmt = '% s')
 
 #plot data
 plt.plot(elapse_time, current)
