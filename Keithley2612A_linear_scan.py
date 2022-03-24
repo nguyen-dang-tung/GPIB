@@ -18,9 +18,11 @@ import datetime
 ######################
 #Create folders to export files (raw data and plots)
 today = datetime.datetime.now()
-date_today = today.strftime('%d%m%y')#grabbing today's date
-time_now = today.strftime('%H_%M')#grabbing current time, hours and minutes
-path_parent = os.getcwd()
+date_today = today.strftime('%y-%m-%d')#grabbing today's date
+time_now = today.strftime('_%H_%M')#grabbing current time, hours and minutes
+path_parent = os.path.dirname(os.getcwd()) + "\\export"
+if os.path.isdir(path_parent) == False:
+    os.mkdir(path_parent)
 #print(path_parent)
 path_export = path_parent + "\\" + date_today
 path_data = path_export + "\\data"
@@ -31,12 +33,12 @@ try:
     os.mkdir(path_export)
     os.mkdir(path_data)
     os.mkdir(path_plot)
-    #print('folder created')
+    print('folders created')
 except:
-    #print('folder was created today, moving on to next step...')
+    print('')
 
 
-'''
+"""
 path_linearscan = path_export + "\\linear_scan_" + time_now
 
 if os.path.isdir(path_linearscan) == False:
@@ -54,7 +56,7 @@ if os.path.isdir(path_plot) == False:
     #print('plot folder created in current directory')
 
 os.chdir(path_data)#Moving to the data folder
-'''
+"""
 #########################Main Code##########################################
 rm = pyvisa.ResourceManager()
 
@@ -71,7 +73,7 @@ start_time = time.time()
 
 v_i = -0.5 
 v_f = 0.5
-v_points = 99
+v_points = 51
 hold = 0.1 #hold time after each point
 #v_range = np.linspace(v_i, v_f, v_points) #one direction
 v_range = np.append(np.linspace(v_i, v_f, v_points), np.linspace(v_f, v_i, v_points)) #sweep 
@@ -105,15 +107,23 @@ kl.write('smub.source.output = smub.OUTPUT_OFF')
 kl.write('smua.reset()')
 kl.write('smub.reset()')
 
-#print(current)
-#print(voltage)
+
+absCurrent = current
+absCurrent[0] = 0
+absCurrent = np.absolute(absCurrent)
+
+absCurrent = absCurrent.tolist()
+absCurrent[0] = 'abs(I)'
+current[0] = 'I'
+    
 ### export data
 data = []
 data.append(timeLapse)
 data.append(voltage)
 data.append(current)
-absCurrent.append(np.absolute(current))
+
 data.append(absCurrent)
+
 
 data_export = np.array(data)
 
@@ -126,8 +136,8 @@ np.savetxt(file_name + ".csv", data_export.T,  delimiter = ", ", fmt = '% s')
 plt.plot(voltage[1:], absCurrent[1:])
 plt.yscale('log')
 #plt.xscale('log')
-plt.xlabel(str(voltage[0])
-plt.xlable(str(absCurrent[0])
+plt.xlabel(str(voltage[0]))
+plt.ylabel(str(absCurrent[0]))
 
 #moving to plot folder
 #export plot here(image processing here)
