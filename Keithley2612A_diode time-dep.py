@@ -20,7 +20,7 @@ import os
 #Create folders to export files (raw data and plots)
 today = datetime.datetime.now()
 date_today = today.strftime('%y-%m-%d')#grabbing today's date
-time_now = today.strftime('_%H_%M')#grabbing current time, hours and minutes
+time_now = today.strftime('_%H_%M_%S')#grabbing current time, hours and minutes
 path_parent = os.path.dirname(os.getcwd()) + "\\export"
 if os.path.isdir(path_parent) == False:
     os.mkdir(path_parent)
@@ -55,7 +55,7 @@ kl.write('smua.source.output = smua.OUTPUT_ON')
 hold = 0 #hold time for each measurement OECT might require hold time = 100 ms
 v_ON = 0.5 #apply a voltage 
 points_before = 100
-points_after = 300
+points_after = 400
 
 current = []
 voltage = []
@@ -111,6 +111,10 @@ np.savetxt(file_name + '.csv', data_export.T,  delimiter = ", ", fmt = '% s')
 plt.plot(elapse_time, current)
 #plt.plot(timeLapse, voltage)
 #plt.plot(voltage, current)
+plt.xlabel('s')
+plt.ylabel('V')
+os.chdir(path_plot)
+plt.savefig(file_name + ".png")
 plt.show()
 
 print('finished after ' + str(int(time.time()-start_time)) + ' s;')

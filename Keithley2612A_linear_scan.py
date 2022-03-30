@@ -19,7 +19,7 @@ import datetime
 #Create folders to export files (raw data and plots)
 today = datetime.datetime.now()
 date_today = today.strftime('%y-%m-%d')#grabbing today's date
-time_now = today.strftime('_%H_%M')#grabbing current time, hours and minutes
+time_now = today.strftime('_%H_%M_%S')#grabbing current time, hours and minutes
 path_parent = os.path.dirname(os.getcwd()) + "\\export"
 if os.path.isdir(path_parent) == False:
     os.mkdir(path_parent)
@@ -71,10 +71,10 @@ kl.write('smub.reset()')
 kl.write('smua.source.output = smua.OUTPUT_ON')
 start_time = time.time()
 
-v_i = -0.5 
-v_f = 0.5
-v_points = 51
-hold = 0.1 #hold time after each point
+v_i = 0.6 
+v_f = -0.6
+v_points = 61
+hold = 0.2 #hold time after each point
 #v_range = np.linspace(v_i, v_f, v_points) #one direction
 v_range = np.append(np.linspace(v_i, v_f, v_points), np.linspace(v_f, v_i, v_points)) #sweep 
 
