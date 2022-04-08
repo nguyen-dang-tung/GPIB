@@ -13,13 +13,26 @@ import numpy as np
 import pandas as pd
 import os as os
 
-#create path to export. Usually the source code is put at src
-path_parent = os.path.dirname(os.getcwd())
-path_export = path_parent + '\\export'
-if os.path.isdir(path_export) == False:
+#Create folders to export files (raw data and plots)
+today = datetime.datetime.now()
+date_today = today.strftime('%y-%m-%d')#grabbing today's date
+time_now = today.strftime('_%H_%M_%S')#grabbing current time, hours and minutes
+path_parent = os.path.dirname(os.getcwd()) + "\\export"
+if os.path.isdir(path_parent) == False:
+    os.mkdir(path_parent)
+#print(path_parent)
+path_export = path_parent + "\\" + date_today
+path_data = path_export + "\\data"
+path_plot = path_export + "\\plot"
+file_name = "linear_scan_" + date_today + time_now 
+#print(path_export)
+try:
     os.mkdir(path_export)
-print(path_export)
-os.chdir(path_export)
+    os.mkdir(path_data)
+    os.mkdir(path_plot)
+    print('folders created')
+except:
+    print('')
 
 #check the ressource and assign the Keithley
 rm = pyvisa.ResourceManager()
@@ -98,9 +111,10 @@ kl.write('smub.source.output = smub.OUTPUT_OFF')
 kl.write('smua.buffer.clear()')
 kl.write('smua.reset()')
 
+
 data_export = np.array(data)
-#print(data_export)
-np.savetxt("output.csv", data_export.T,  delimiter = ", ", fmt = '% s')
+os.chdir(path_data)
+np.savetxt(file_name + ".csv", data_export.T,  delimiter = ", ", fmt = '% s')
 
 print('finished after ' + str(int(time.time()-start_time) + ' s;')
 print('end.')
