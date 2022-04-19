@@ -82,11 +82,15 @@ current = []
 voltage = []
 timeLapse = []
 absCurrent = []
-
+#adding name and unit of columns
 current.append('I')
+current.append('A')
+voltage.append('V')
 voltage.append('V')
 timeLapse.append('time')
+timeLapse.append('s')
 absCurrent.append('abs(I)')
+absCurrent.append('A')
 
 for i in v_range:
     #print(i)
