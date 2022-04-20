@@ -71,7 +71,7 @@ kl.write('smub.reset()')
 kl.write('smua.source.output = smua.OUTPUT_ON')
 start_time = time.time()
 
-v_i = 0.6 
+v_i = 0.6 #initial voltage
 v_f = -0.6
 v_points = 61
 hold = 0.2 #hold time after each point
@@ -82,7 +82,7 @@ current = []
 voltage = []
 timeLapse = []
 absCurrent = []
-#adding name and unit of columns
+
 current.append('I')
 current.append('A')
 voltage.append('V')
@@ -114,11 +114,14 @@ kl.write('smub.reset()')
 
 absCurrent = current
 absCurrent[0] = 0
+absCurrent[1] = 0
 absCurrent = np.absolute(absCurrent)
 
 absCurrent = absCurrent.tolist()
 absCurrent[0] = 'abs(I)'
+absCurrent[1] = 'A'
 current[0] = 'I'
+current[1] = 'A'
     
 ### export data
 data = []
@@ -137,16 +140,16 @@ np.savetxt(file_name + ".csv", data_export.T,  delimiter = ", ", fmt = '% s')
 ### plot data
 #plt.plot(timeLapse[1:], np.absolute(current[1:]))
 #plt.plot(timeLapse[1:], voltage[1:])
-plt.plot(voltage[1:], absCurrent[1:])
-plt.yscale('log')
-#plt.xscale('log')
-plt.xlabel(str(voltage[0]))
-plt.ylabel(str(absCurrent[0]))
+plt.plot(voltage[2:], absCurrent[2:])
+#plt.yscale('')
+#plt.xscale('')
+#plt.xlabel(str(absCurrent[0]))
+#plt.ylabel(str(absCurrent[0]))
 
 #moving to plot folder
 #export plot here(image processing here)
 os.chdir(path_plot)
-plt.savefig(file_name + ".png")
+plt.savefig(file_name + ".jpg")
 plt.show()
 
 print('finished after ' + str(int(time.time()-start_time)) + ' s;')
